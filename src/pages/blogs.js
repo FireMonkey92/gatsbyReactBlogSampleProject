@@ -5,7 +5,7 @@ import { graphql } from "gatsby"
 
 const BlogPage = ({data}) => (
   <Layout>
-    <h1>Lattest Posts</h1>
+    <h1 style={{ textAlign: "center"}}>Lattest Posts</h1>
     {data.allMarkdownRemark.edges.map(posts => (
         <div key={posts.node.id}>
             <h3>{posts.node.frontmatter.title}</h3>
