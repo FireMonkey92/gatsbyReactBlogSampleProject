@@ -2,6 +2,7 @@ import React from "react"
 import Link from "gatsby-link"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
+import Img from 'gatsby-image';
 
 const TemplateBlogPost = ({ data }) => {
   const post = data.markdownRemark
@@ -16,6 +17,8 @@ const TemplateBlogPost = ({ data }) => {
           <hr />
           <div>
             <h1>{post.frontmatter.title}</h1>
+            <Img fluid={post.frontmatter.image.childImageSharp.fluid}></Img>
+
             <h4>
               Posted By: {post.frontmatter.auther} on {post.frontmatter.date}
             </h4>
@@ -50,6 +53,21 @@ export const postQuery = graphql`
         title
         date
         auther
+        image {
+          childImageSharp {
+            fluid {
+              base64
+              src
+              srcSet
+              sizes
+              aspectRatio
+              originalImg
+              originalName
+              presentationWidth
+              presentationHeight
+            }
+          }
+        }
       }
     }
   }

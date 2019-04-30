@@ -1,7 +1,7 @@
 const path = require("path")
 // create pages For all the blogs
-exports.createPages = ({ actions , graphql }) => {
-  const { createPage } = actions 
+exports.createPages = ({ actions : {createPage} , graphql }) => {
+  // const { createPage } = actions 
   //  component ro resolve from a particuller path  that points to our page tamplate for displaying post page according to path we recieve
   const postTemplate = path.resolve("src/templets/blog-post.js")
   return graphql(`
@@ -31,7 +31,7 @@ exports.createPages = ({ actions , graphql }) => {
       // console.log(node)
       createPage({
         path: node.frontmatter.path,
-        component: postTemplate,
+        component: postTemplate
       })
     })
   })
