@@ -1,8 +1,7 @@
 import React from "react"
 import Link from 'gatsby-link'
 const Menu = () => (
-
-  <div
+  <div id="navbar"
     style={{
       background: "#f4f4f4",
       paddingTop: "10px",
@@ -15,4 +14,4 @@ const Menu = () => (
     </ul>
   </div>
 )
-export default Menu
+export default Menu;

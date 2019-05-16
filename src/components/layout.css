@@ -52,9 +52,28 @@ a {
 a:active,
 a:hover {
   outline-width: 0;
-  /* background-color: #333; */
-  /* color: #fff; */
 }
+#navbar a{
+  padding: 15px 10px;
+}
+.blogsMini a:hover{
+  color: #333 !important;
+}
+.readmore{
+  padding: 0px 20px;
+  font-size: 15px;
+}
+.readmore:active,.readmore:hover{
+  background-color: #333 !important;
+  color: #fff;
+}
+#navbar a:active,
+a:hover {
+  outline-width: 0;
+  background-color: #333 !important;
+  color: #fff;
+}
+
 abbr[title] {
   border-bottom: none;
   text-decoration: underline;

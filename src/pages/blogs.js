@@ -8,7 +8,7 @@ const BlogPage = ({ data }) => (
   <Layout>
     <h1 style={{ textAlign: "center" }}>Lattest Posts</h1>
     {data.allMarkdownRemark.edges.map((posts, index) => (
-      <div key={index} style={{ border : '1px solid gray' , padding: '10px', margin: '10px 0' , height: '170px'}}>
+      <div className="blogsMini" key={index} style={{ border : '1px solid gray' , padding: '10px', margin: '10px 0'}}>
       <Link to={posts.node.frontmatter.path}> 
       <div style={{ width: "100%", display: "flex" }}>
           <div style={{ width: "25%" }}>
@@ -20,12 +20,11 @@ const BlogPage = ({ data }) => (
               Posted by : {posts.node.frontmatter.auther} on{" "}
               {posts.node.frontmatter.date}{" "}
             </small>
-            <Link style={{ float : "right" , bottom : '5px' , right : '5px'}} to={posts.node.frontmatter.path}>Read More</Link>
+            <div className="readmore" style={{ float : "right" , bottom : '5px' , right : '5px' , cursor: 'pointer'}} >
+            Read More
+            </div>
           </div>
         </div>
-        <br />
-        <br />
-        <br />
         </Link>
       </div>
     ))}
@@ -45,24 +44,10 @@ export const pageQuery = graphql`
             image {
               childImageSharp {
                 fluid {
-                  base64
-                  src
-                  srcSet
-                  sizes
-                  aspectRatio
-                  originalImg
-                  originalName
-                  presentationWidth
-                  presentationHeight
+                  ...GatsbyImageSharpFluid
                 }
                 fixed(width: 200) {
-                  aspectRatio
-                  base64
-                  width
-                  src
-                  height
-                  srcSet
-                  originalName
+                  ...GatsbyImageSharpFixed
                 }
               }
             }

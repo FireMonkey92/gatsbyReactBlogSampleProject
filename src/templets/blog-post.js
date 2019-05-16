@@ -2,7 +2,7 @@ import React from "react"
 import Link from "gatsby-link"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
-import Img from 'gatsby-image';
+import Img from "gatsby-image"
 
 const TemplateBlogPost = ({ data }) => {
   const post = data.markdownRemark
@@ -13,18 +13,16 @@ const TemplateBlogPost = ({ data }) => {
           <div>
             <Link to="/blogs">Go Back</Link>
           </div>
-          <br/>
+          <br />
           <hr />
-          <div>
+          <div >
             <h1>{post.frontmatter.title}</h1>
-            <Img fluid={post.frontmatter.image.childImageSharp.fluid}></Img>
-
-            <h4>
+            <Img fluid={post.frontmatter.image.childImageSharp.fluid} />
+            <h4 style={{ right: "0px" , padding : "10px 5px 0px", textAlign: "end" }}>
               Posted By: {post.frontmatter.auther} on {post.frontmatter.date}
             </h4>
-            <div dangerouslySetInnerHTML={{ __html: post.html }} />
           </div>
-          This Is Blog Post
+          <div dangerouslySetInnerHTML={{ __html: post.html }} />
         </div>
       </Layout>
     )
@@ -34,8 +32,7 @@ const TemplateBlogPost = ({ data }) => {
         <div
           style={{
             textAlign: "center",
-          }}
-        >
+          }}>
           <h2>Loading...!!</h2>
           <h4>Take deep Breath</h4>
         </div>
@@ -56,15 +53,7 @@ export const postQuery = graphql`
         image {
           childImageSharp {
             fluid {
-              base64
-              src
-              srcSet
-              sizes
-              aspectRatio
-              originalImg
-              originalName
-              presentationWidth
-              presentationHeight
+              ...GatsbyImageSharpFluid
             }
           }
         }
