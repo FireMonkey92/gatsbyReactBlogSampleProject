@@ -21,6 +21,14 @@ module.exports = {
         path: `${__dirname}/src/pages`
       }
     },
+    `gatsby-transformer-json`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `artists`,
+        path: `${__dirname}/src/data`
+      }
+    },
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     `gatsby-transformer-remark`,
