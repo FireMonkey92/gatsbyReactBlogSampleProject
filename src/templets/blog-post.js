@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "gatsby-link"
 import { graphql } from "gatsby"
+import PropTypes from 'prop-types';
 import Layout from "../components/layout"
 import Img from "gatsby-image"
 
@@ -18,7 +19,7 @@ const TemplateBlogPost = ({ data }) => {
           <div >
             <h1>{post.frontmatter.title}</h1>
             <Img fluid={post.frontmatter.image.childImageSharp.fluid} />
-            <h4 style={{ right: "0px" , padding : "10px 5px 0px", textAlign: "end" }}>
+            <h4 style={{ right: "0px", padding: "10px 5px 0px", textAlign: "end" }}>
               Posted By: {post.frontmatter.auther} on {post.frontmatter.date}
             </h4>
           </div>
@@ -40,7 +41,6 @@ const TemplateBlogPost = ({ data }) => {
     )
   }
 }
-
 export const postQuery = graphql`
   query BlogpostByPath($path: String!) {
     markdownRemark(frontmatter: { path: { eq: $path } }) {
@@ -61,5 +61,20 @@ export const postQuery = graphql`
     }
   }
 `
+TemplateBlogPost.propTypes = {
+  data: PropTypes.shape({
+    markdownRemark: PropTypes.shape({
+      html: PropTypes.string,
+      frontmatter: PropTypes.shape({
+        path: PropTypes.string,
+        title: PropTypes.string,
+        date: PropTypes.string,
+        auther: PropTypes.string,
+        image: PropTypes.object,
+      }),
+    })
+  })
+};
+
 
 export default TemplateBlogPost
