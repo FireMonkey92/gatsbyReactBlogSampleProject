@@ -1,0 +1,114 @@
+#controlPanel{
+    background-color: #f0f4f7;
+    .dashHeader{
+        background-color: #2b2b2b;
+        height: auto;
+        img{
+            padding: 0px 0px;
+            margin-bottom: auto
+        }
+    }
+    .dashboardMain{
+        padding: 50px 10px;
+        .dashboardSider {
+            background-color: transparent;
+        }
+        .dashboardTable{
+            font-weight: 400;
+            font-size: 12px !important;
+            .ant-table-thead{
+                tr{
+                    background: #cd5025 !important;
+                    span{
+                        color: #f0f4f7;
+                        text-transform: uppercase;
+                        font-size: 12px;
+                    }
+                    th.ant-table-column-sort{
+                        background: inherit;
+                        &:hover{
+                            background: inherit !important;
+                        }
+                    }
+                    th.ant-table-column-has-sorters {
+                        &:hover{
+                            background: inherit !important;                           
+                        }
+                    }
+                   
+                }
+            }  
+            .ant-table-tbody {
+                font-size: 12px;
+
+                .helensys-Analysed {
+                    background-color: #bd541e!important;
+                }
+                .helensys-NeedAnalysis {
+                    background-color: #f8962b!important;
+                }
+                .helensys-pills {
+                    padding: 1px 10px;
+                    font-size: 12px;
+                    font-weight: 400;
+                    border-radius: 10px;
+                    color: #fff;
+                    display: inline-block;
+                    margin: 2px 5px;
+                }
+                .lcStatus{
+                    img{
+                        width: 25px;
+                        height: auto;
+                    }
+                    &:hover{
+                        background-color: transparent;    
+                    }
+                }
+            }
+            .ant-pagination.ant-table-pagination{
+                background-color: transparent;
+                .ant-pagination-item {
+                    border: none;
+                    background: inherit;
+                    color: #9b9b9b!important;
+
+                    &:hover a, &:active a{
+                        background: transparent;
+                        color: black;
+                    }  
+                    .ant-pagination-item-link{
+                        &:hover a, &:active a{
+                            background: transparent;
+                            color: black !important;
+                        }     
+                    }
+                }
+                .ant-pagination-item-active{
+                    border: none;
+                    background: inherit;
+                    a{
+                        border-radius: 50%;
+                        width: 27px;
+                        height: 27px;
+                        background: linear-gradient(-143deg,#e04f38 0%,#e95a2f 69%,#f16525 100%) !important;
+                        color: #2b2b2b!important;
+                    }
+                }
+            
+                .ant-pagination-prev{
+                    .ant-pagination-item-link{
+                        background-color:transparent;
+                        border: none;
+                    }
+                }
+                .ant-pagination-next{
+                    .ant-pagination-item-link{
+                        background-color:transparent;
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+}

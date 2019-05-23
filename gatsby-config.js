@@ -5,6 +5,7 @@ module.exports = {
     author: `@FireMonkey92`,
   },
   plugins: [
+    `gatsby-plugin-less`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
