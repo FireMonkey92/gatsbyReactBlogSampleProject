@@ -1,32 +1,31 @@
-import React from 'react'
-import { useStaticQuery, graphql } from "gatsby";
+import React, { Component } from 'react'
+import { graphql } from "gatsby";
 import moment from 'moment';
-import { Layout, Table, DatePicker } from 'antd';
+import {
+    ExcelExport,
+    ExcelExportColumn
+} from '@progress/kendo-react-excel-export';
+import { Layout, Table, DatePicker, Button } from 'antd';
 
-const AntDataTableExample = () => {
+class antTable extends Component {
 
-    const { Header, Sider, Content } = Layout;
-    const { dataJson } = useStaticQuery(graphql`
-    {
-        dataJson {
-            data {
-            id
-            location
-            poured
-            sold
-            variance
-            date
-            tickitId
-            linecleaning
-            isAnalysed
-          }
+    constructor(props) {
+        super(props)
+        this.state = {
+            DataSource: {}
         }
-    }`);
-    const DataSource = dataJson.data;
-    console.log(DataSource);
-
-
-    const columns = [
+    }
+    _exporter;
+    export = () => {
+        this._exporter.save();
+    }
+    componentWillMount() {
+        const { data } = this.props.data.dataJson;
+        this.setState({
+            DataSource: data
+        });
+    }
+    columns = [
         {
             dataIndex: "id",
             key: "id"
@@ -73,16 +72,16 @@ const AntDataTableExample = () => {
             render: linecleaning => {
                 if (linecleaning) {
                     return (
-                        <a className="lcStatus">
-                            <img className="lcStatus" src="https://datasupport.beerboard.com/images/cleanOn.png" alt="positive" />
-                        </a>
+                        <span className="lcStatus">
+                            <img src="https://datasupport.beerboard.com/images/cleanOn.png" alt="positive" />
+                        </span>
                     )
                 }
                 else {
                     return (
-                        <a className="lcStatus">
+                        <span className="lcStatus">
                             <img src="https://datasupport.beerboard.com/images/cleanOff.png" alt="negetive" />
-                        </a>
+                        </span>
                     )
                 }
             }
@@ -129,32 +128,84 @@ const AntDataTableExample = () => {
         }
 
     ];
-
-    const rowSelection = {
+    rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
         getCheckboxProps: record => ({
-
             disabled: record.tickitId !== "", // Column configuration not to be checked
             name: record.name,
         }),
     };
 
-    return (
-        <Layout id="controlPanel">
-            <Header className="dashHeader">
-                <img src="https://datasupport.beerboard.com/images/beerboard-logo.png" alt="Logo Not Loaded" />
-            </Header>
-            <Layout className="dashboardMain">
-                <Sider className="dashboardSider" width="250px">
-                    <DatePicker defaultValue={moment('2015/01/01', 'YYY/MM/DD')} format='YYY/MM/DD' />
-                </Sider>
-                <Content className="dashboardTable">
-                    <Table rowSelection={rowSelection} dataSource={DataSource} columns={columns} rowKey="id" />
-                </Content>
+    render() {
+        const { Header, Sider, Content } = Layout;
+
+        return (
+            <Layout id="controlPanel">
+                <Header className="dashHeader">
+                    <img src="https://datasupport.beerboard.com/images/beerboard-logo.png" alt="Logo Not Loaded" />
+                </Header>
+                <Layout className="dashboardMain">
+                    <Sider className="dashboardSider" width="250px">
+                        <DatePicker defaultValue={moment('2015/01/01', 'YYY/MM/DD')} format='YYY/MM/DD' />
+                    </Sider>
+                    <Content className="dashboardTable">
+                        <Button onClick={this.export} type="primary" style={{ marginBottom: '25px', width: '200px' }} icon="download" size="large">Exort to excel</Button>
+                        <Table rowSelection={this.rowSelection} dataSource={this.state.DataSource} columns={this.columns} rowKey="id" />
+                    </Content>
+                </Layout>
+                <ExcelExport
+                    data={this.state.DataSource}
+                    fileName="Loactions.xlsx"
+                    ref={(exporter) => { this._exporter = exporter; }}>
+                    <ExcelExportColumn field="id" title="ID" locked={true} width={50} />
+                    <ExcelExportColumn CellOptions={{ wrap: true, textAlign: 'center' }} field="location" title="Location" locked={true} width={350} />
+                    <ExcelExportColumn field="poured" title="Poured" width={150} />
+                    <ExcelExportColumn field="sold" title="Sold" width={150} />
+                    <ExcelExportColumn field="variance" title="Variance" width={150} />
+                    <ExcelExportColumn field="date" title="Date" width={170} />
+                    <ExcelExportColumn field="tickitId" title="TickitId" width={70} />
+                    <ExcelExportColumn field="linecleaning" title="Line cleaning" width={50} />
+                    <ExcelExportColumn field="isAnalysed" title="Analysed Status" width={150} />
+                </ExcelExport>
             </Layout>
-        </Layout>
-    )
+        )
+    }
 }
-export default AntDataTableExample;
+export default antTable;
+export const query = graphql`
+  { 
+    dataJson 
+        {
+            data {
+            id
+            location
+            poured
+            sold
+            variance
+            date
+            tickitId
+            linecleaning
+            isAnalysed
+        }
+    }
+  }
+`;
+
+// query getData($date: String!){
+//     dataJson 
+//     {
+//         data(elemMatch: {{ date: { eq: $path } }}) {
+//         id
+//         location
+//         poured
+//         sold
+//         variance
+//         date
+//         tickitId
+//         linecleaning
+//         isAnalysed
+//         }
+//     }
+// }

@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@progress/kendo-react-excel-export": "^2.11.0",
     "antd": "^3.18.2",
     "gatsby": "^2.3.25",
     "gatsby-image": "^2.0.39",
