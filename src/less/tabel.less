@@ -14,6 +14,7 @@
             background-color: transparent;
         }
         .dashboardTable{
+            margin-left: 10px;
             font-weight: 400;
             font-size: 12px !important;
             .ant-table-thead{
@@ -46,10 +47,11 @@
                          span{
                             justify-content: center;
                             img{
-                                width: 20px;
-                                height: 20px;
+                                width: 25px;
+                                height: 25px;
                                 background-position: center center;
                                 margin-bottom: 0px;
+                                cursor: pointer;
                             }
                             &:hover{
                                 background-color: transparent;    
@@ -123,6 +125,69 @@
 
             //     } 
             // } 
+        }
+    }
+    .dashboardSider {
+        .ant-layout-sider-children {
+            .ant-row{
+                margin-top: 18px;
+            }
+            .ant-calendar-picker {
+                width: 100%;
+            }
+            .ant-select{
+                width: 100%;
+              
+            }
+            span{
+                width: 100%;
+            }
+            .ant-select-arrow{
+                margin: 0;
+                float: right;
+                .ant-select-arrow-icon{
+                    text-align: -webkit-right
+                }
+            }
+            .ant-menu{
+                .ant-menu-submenu-title{
+                    padding-left: 0px !important;
+                }
+            }
+        } 
+        .ant-card{
+            .ant-card-head{
+               background-color: #cd5025;
+               color: #f0f4f7;
+            }
+        }
+    }
+    .helensys-yellow-theme-color {
+        background-color: #f8962b!important;
+    }
+    .helensys-linear-theme-btn-bgcolor {
+        background: linear-gradient(-143deg,#e04f38 0%,#e95a2f 69%,#f16525 100%)!important;
+        border: none;
+    }
+    .helensys-cancel-btn {
+        background: #8095aa;
+        border: none;
+    }
+    
+}
+
+.ant-modal-wrap {
+    .ant-modal-header{
+        background-color: #cd5025 ;
+        border-radius: 2px;
+        .ant-modal-title{
+            color: #f0f4f7;
+        }
+    }
+    .ant-modal-close-x{
+        i svg{
+            color: #f0f4f7;
+            
         }
     }
 }

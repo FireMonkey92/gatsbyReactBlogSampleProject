@@ -5,19 +5,29 @@ import {
     ExcelExport,
     ExcelExportColumn
 } from '@progress/kendo-react-excel-export';
-import { Layout, Table, DatePicker, Button } from 'antd';
+import { Layout, Row, Col, Menu, Table, DatePicker, Button, Select, Card, Modal } from 'antd';
 
+const { Option } = Select;
+const { SubMenu } = Menu;
 class antTable extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            DataSource: {}
+            SelctedDate: "",
+            modalVisible: false,
+            SelectedLocation: [],
+            SelectedType: "",
+            SelectedAnalysisType: "",
+            DataSource: []
         }
     }
     _exporter;
     export = () => {
         this._exporter.save();
+    }
+    setModalVisible(modalVisible) {
+        this.setState({ modalVisible });
     }
     componentWillMount() {
         const { data } = this.props.data.dataJson;
@@ -29,6 +39,31 @@ class antTable extends Component {
         {
             dataIndex: "id",
             key: "id"
+        },
+        {
+            title: '',
+            dataIndex: '',
+            key: '',
+            render: () => {
+                return (
+                    <span className="OpenSmartBar">
+                        <img src="https://datasupport.beerboard.com/images/link.png" alt="OpenSmartBar" />
+                    </span>
+                )
+            }
+        },
+        {
+            title: '',
+            dataIndex: '',
+            key: '',
+            render: () => {
+
+                return (
+                    <span className="OpenTicket">
+                        <img onClick={() => this.setModalVisible(true)} src="https://datasupport.beerboard.com/images/ticket.png" alt="OpenTickit" />
+                    </span>
+                )
+            }
         },
         {
             title: 'Location Name',
@@ -66,7 +101,7 @@ class antTable extends Component {
             key: 'tickitId',
         },
         {
-            title: 'Line Cleaning',
+            title: 'LC',
             dataIndex: 'linecleaning',
             key: 'linecleaning',
             render: linecleaning => {
@@ -138,9 +173,45 @@ class antTable extends Component {
         }),
     };
 
+    handleDateChange = (m, ds) => {
+        if (ds) {
+            this.setState({
+                SelctedDate: ds
+            });
+        }
+    }
+    handleTypeChange = (value) => {
+        this.setState({
+            SelectedType: value
+        })
+    }
+    handleLocationChange = (value) => {
+        this.setState({
+            SelectedLocation: value
+        })
+    }
+    handleAnalysisStateChange = (value) => {
+        this.setState({
+            SelectedAnalysisType: value
+        })
+    }
+    handleSearch = () => {
+        console.log(this.state)
+    }
+    handleResetAll = () => {
+        this.setState({
+            SelctedDate: "",
+            SelectedLocation: [],
+            SelectedType: "",
+            SelectedAnalysisType: "",
+            DataSource: []
+        })
+    }
+
     render() {
         const { Header, Sider, Content } = Layout;
 
+        const d = new Date();
         return (
             <Layout id="controlPanel">
                 <Header className="dashHeader">
@@ -148,19 +219,82 @@ class antTable extends Component {
                 </Header>
                 <Layout className="dashboardMain">
                     <Sider className="dashboardSider" width="250px">
-                        <DatePicker defaultValue={moment('2015/01/01', 'YYY/MM/DD')} format='YYY/MM/DD' />
+                        <Card title="SEARCH" style={{ width: "100%", paddingBottom: "10px", marginTop: "65px" }}>
+                            <Row>
+                                <Col span={24}><span>Date</span></Col>
+                                <Col span={24}><DatePicker width="100%" defaultValue={moment(d.getTime())} format='MM/DD/YYYY' onChange={(m, ds) => this.handleDateChange(m, ds)} /></Col>
+                            </Row>
+                            <Row>
+                                <Col span={24}><span>Location</span></Col>
+                                <Col span={24}><Select placeholder="Select Locations" mode="tags" tokenSeparators={[',']}>
+                                </Select>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={24}><span>Type</span></Col>
+                                <Col span={24}>
+                                    <Select onChange={(value) => this.handleTypeChange(value)} placeholder="Select">
+                                        <Option value="L1">L1</Option>
+                                        <Option value="L2">L2</Option>
+                                    </Select>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={24}><span>Analysis Status</span></Col>
+                                <Col span={24}>
+                                    <Select onChange={(value) => this.handleAnalysisStateChange(value)} placeholder="Select">
+                                        <Option value="true">ANALYSED</Option>
+                                        <Option value="false">NEED ANALYSIS</Option>
+                                        <Option value="closed">TICKIT CLOSED</Option>
+                                        <Option value="created">TICKIT CREATED</Option>
+                                    </Select>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col span={24} >
+                                    <Button onClick={() => this.handleResetAll()} className="helensys-cancel-btn" style={{ float: "left", left: "5px" }} type="primary" shape="round" size="default">
+                                        Reset
+                                    </Button>
+                                    <Button onClick={() => this.handleSearch()} className="helensys-linear-theme-btn-bgcolor" style={{ float: "right", right: "5px" }} type="primary" shape="round" size="default">
+                                        Search
+                                </Button>
+                                </Col>
+                            </Row>
+                        </Card>
                     </Sider>
                     <Content className="dashboardTable">
                         <Button onClick={this.export} type="primary" style={{ marginBottom: '25px', width: '200px' }} icon="download" size="large">Exort to excel</Button>
                         <Table rowSelection={this.rowSelection} dataSource={this.state.DataSource} columns={this.columns} rowKey="id" />
                     </Content>
+
+                    <Modal
+                        title="OPEN TICKET DETAILS"
+                        style={{ right: "-30%", bottom: 0, top: "5px" }}
+                        visible={this.state.modalVisible}
+                        onOk={() => this.setModalVisible(false)}
+                        onCancel={() => this.setModalVisible(false)}>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                        <p>some contents...</p>
+                    </Modal>
                 </Layout>
                 <ExcelExport
                     data={this.state.DataSource}
                     fileName="Loactions.xlsx"
                     ref={(exporter) => { this._exporter = exporter; }}>
-                    <ExcelExportColumn field="id" title="ID" locked={true} width={50} />
-                    <ExcelExportColumn CellOptions={{ wrap: true, textAlign: 'center' }} field="location" title="Location" locked={true} width={350} />
+                    <ExcelExportColumn field="id" title="ID" width={50} />
+                    <ExcelExportColumn CellOptions={{ wrap: true, textAlign: 'center' }} field="location" title="Location" width={350} />
                     <ExcelExportColumn field="poured" title="Poured" width={150} />
                     <ExcelExportColumn field="sold" title="Sold" width={150} />
                     <ExcelExportColumn field="variance" title="Variance" width={150} />
@@ -169,7 +303,7 @@ class antTable extends Component {
                     <ExcelExportColumn field="linecleaning" title="Line cleaning" width={50} />
                     <ExcelExportColumn field="isAnalysed" title="Analysed Status" width={150} />
                 </ExcelExport>
-            </Layout>
+            </Layout >
         )
     }
 }
